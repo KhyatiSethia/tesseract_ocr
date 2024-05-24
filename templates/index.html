@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload PDF and Extract Text</title>
+</head>
+<body>
+    <h1>Upload PDF and Extract Text</h1>
+    <form method="POST" action="/" enctype="multipart/form-data">
+        <label for="file">Select PDF file:</label><br>
+        <input type="file" name="file" id="file" accept=".pdf" required><br><br>
+
+        <label for="page_no_first">First page number:</label><br>
+        <input type="number" name="page_no_first" id="page_no_first" required><br><br>
+
+        <label for="page_no_last">Last page number:</label><br>
+        <input type="number" name="page_no_last" id="page_no_last" required><br><br>
+
+        <label for="language">Select language:</label><br>
+        <select name="language" id="language" required>
+            {% for language in languages %}
+            <option value="{{ language }}">{{ language }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="checkbox" name="tables_present_in_pdf" id="tables_present_in_pdf">
+        <label for="tables_present_in_pdf">Tables present in PDF?</label><br><br>
+
+        <input type="submit" value="Extract Text">
+    </form>
+    <div>
+        <textarea id="txt1" name="text1" rows="10" cols="200">
+            {{ sample_output }}
+        </textarea>
+        
+        {% if download_url %}
+        <a href="{{ download_url }}" download>Download File</a>
+        {% endif %}
+    </div>
+</body>
+</html>

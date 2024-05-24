@@ -87,6 +87,8 @@ def pytesseract_pdf_to_string(input_filepath: str, page_no_first: int, page_no_l
     # Create output file path
     output_file_path = os.path.join('outputs', output_file)
 
+    full_text = []
+
     # Remove existing output file if present
     if os.path.exists(output_file_path):
         os.remove(output_file_path)
@@ -101,6 +103,9 @@ def pytesseract_pdf_to_string(input_filepath: str, page_no_first: int, page_no_l
             text = extract_text_from_image(page_sel, lang)
             f.write(text + '\n')
             page_num += page_num
+            full_text.append(text)
+
+    return full_text
 
 
 def pytesseract_pdf_with_tables_to_string(input_filepath: str, page_no_first: int, page_no_last: int, lang: str, output_file: str,
@@ -123,6 +128,8 @@ def pytesseract_pdf_with_tables_to_string(input_filepath: str, page_no_first: in
 
     # Create output file path
     output_file_path = os.path.join('outputs', output_file)
+
+    full_text = []
 
     # Remove existing output file if present
     if os.path.exists(output_file_path):
@@ -173,6 +180,7 @@ def pytesseract_pdf_with_tables_to_string(input_filepath: str, page_no_first: in
                 text = extract_text_from_image(
                     page_sel[y:y+h, x:x+w], lang)
                 f.write(text + '\n')
+                full_text.append(text)
 
             # Extract text from text regions inside tables
             for i_r, (x, y, w, h) in enumerate(rects_tables, start=1):
@@ -180,6 +188,7 @@ def pytesseract_pdf_with_tables_to_string(input_filepath: str, page_no_first: in
                 text = extract_text_from_image(
                     page_sel[y:y+h, x:x+w], lang)
                 f.write(text + '\n')
+                full_text.append(text)
 
             # Visualize intermediate steps if requested
             if visualize_steps:
@@ -197,3 +206,5 @@ def pytesseract_pdf_with_tables_to_string(input_filepath: str, page_no_first: in
                     thr, cnts_no_tables, "outputs/cnts2_page{}.png".format(page_num))
 
             page_num += page_num
+
+    return full_text

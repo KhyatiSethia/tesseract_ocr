@@ -33,7 +33,7 @@ def main():
         # Convert string argument to boolean
         if tables_present_in_pdf.lower() == 'true':
             pytesseract_pdf_with_tables_to_string(
-                input_filepath, page_no_first, page_no_last, lang, output_file, tesseract_cmd, poppler_path, True)
+                input_filepath, page_no_first, page_no_last, lang, output_file, tesseract_cmd, poppler_path, False)
         else:
             pytesseract_pdf_to_string(
                 input_filepath, page_no_first, page_no_last, lang, output_file, tesseract_cmd, poppler_path)
